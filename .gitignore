@@ -1,0 +1,45 @@
+# Node & Dependencies
+node_modules/
+.npm
+.pnpm-store
+
+# Build & Dist
+dist/
+build/
+.dist/
+
+# Environment & Secrets
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# SQLite database files (keep clean seed script)
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+
+# Logs & Temporary files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+test_login.js
+find_tools.js
+refactor_ui.js
+
+# OS & Editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Vite & PWA
+dev-dist/

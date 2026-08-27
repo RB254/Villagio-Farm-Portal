@@ -1,0 +1,436 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   VILLAGIO FARM FRESH - OFFICIAL BRAND DESIGN SYSTEM
+   Brand Guide: Dark Green (#184037), Accent Orange (#ed7423), Soft Peach (#f6b787), Light Canvas (#F8F9FA)
+   ============================================================ */
+
+:root {
+  --color-brand-green: #184037;
+  --color-brand-green-light: #23594e;
+  --color-brand-green-dark: #0f2923;
+  --color-brand-orange: #ed7423;
+  --color-brand-orange-hover: #db6314;
+  --color-brand-peach: #f6b787;
+  --color-brand-peach-light: #fff7ed;
+  
+  --primary-200: #a7f3d0;
+  --primary-300: #6ee7b7;
+  --primary-400: #184037;
+  --primary-500: #184037;
+  --accent-gold: #ed7423;
+  
+  --bg-canvas: #F8F9FA;
+  --bg-surface: #FFFFFF;
+  --bg-card: #FFFFFF;
+  
+  --border-subtle: #E2E8F0;
+  --border-active: #CBD5E1;
+  --border-brand: #184037;
+  
+  --text-heading: #184037;
+  --text-body: #334155;
+  --text-muted: #64748B;
+  --text-dim: #94A3B8;
+  --text-accent: #ed7423;
+
+  --font-family-base: 'Poppins', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Poppins', system-ui, -apple-system, sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: var(--font-family-base);
+  background-color: var(--bg-canvas);
+  color: var(--text-body);
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family-base);
+  font-weight: 700;
+  color: var(--text-heading);
+}
+
+/* Mobile PWA Wrapper */
+.mobile-wrapper {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 24px 16px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Clean White Container Cards */
+.glass-card, .brand-card {
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px 0 rgba(0, 0, 0, 0.02);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  color: #334155;
+}
+
+.glass-card:hover, .brand-card:hover {
+  border-color: #CBD5E1;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
+
+/* Touch Action Buttons for Farmer Mobile */
+.touch-action-btn {
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 16px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  text-align: left;
+  width: 100%;
+  transition: all 0.2s ease;
+  color: #184037;
+}
+
+.touch-action-btn:hover {
+  border-color: #184037;
+  box-shadow: 0 4px 8px rgba(24, 64, 55, 0.08);
+  transform: translateY(-1px);
+}
+
+.touch-icon-box {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  background-color: #fff7ed;
+  border: 1px solid #fed7aa;
+  flex-shrink: 0;
+}
+
+/* Stats / KPI Boxes */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.stat-box {
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.stat-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #64748B;
+  letter-spacing: 0.05em;
+}
+
+.stat-value {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #184037;
+}
+
+/* Form Controls */
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #64748B;
+  margin-bottom: 6px;
+}
+
+.form-control {
+  width: 100%;
+  background-color: #F8F9FA;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 0.92rem;
+  color: #1e293b;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #ed7423;
+  box-shadow: 0 0 0 3px rgba(237, 116, 35, 0.15);
+  background-color: #FFFFFF;
+}
+
+/* Standard Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 600;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  border: none;
+  width: 100%;
+  text-align: center;
+}
+
+.btn-primary, .btn-brand-primary {
+  background-color: #184037;
+  color: #FFFFFF;
+  font-weight: 600;
+  padding: 12px 20px;
+  border-radius: 12px;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(24, 64, 55, 0.15);
+}
+
+.btn-primary:hover:not(:disabled), .btn-brand-primary:hover:not(:disabled) {
+  background-color: #23594e;
+  box-shadow: 0 4px 10px rgba(24, 64, 55, 0.25);
+  transform: translateY(-1px);
+}
+
+.btn-secondary, .btn-brand-secondary {
+  background-color: #FFFFFF;
+  color: #184037;
+  font-weight: 600;
+  padding: 12px 18px;
+  border-radius: 12px;
+  border: 1px solid #E2E8F0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover:not(:disabled), .btn-brand-secondary:hover:not(:disabled) {
+  background-color: #F8F9FA;
+  border-color: #CBD5E1;
+  color: #0f2923;
+}
+
+.btn-brand-orange {
+  background-color: #ed7423;
+  color: #FFFFFF;
+  font-weight: 600;
+  padding: 12px 20px;
+  border-radius: 12px;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(237, 116, 35, 0.25);
+}
+
+.btn-brand-orange:hover:not(:disabled) {
+  background-color: #db6314;
+  box-shadow: 0 4px 10px rgba(237, 116, 35, 0.35);
+  transform: translateY(-1px);
+}
+
+/* Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.badge-channel {
+  background-color: #fff7ed;
+  color: #ed7423;
+  border: 1px solid #fed7aa;
+}
+
+.badge-submitted {
+  background-color: #fef9c3;
+  color: #854d0e;
+  border: 1px solid #fde047;
+}
+
+.badge-completed {
+  background-color: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+/* Clean Admin Layout */
+.admin-shell {
+  min-height: 100vh;
+  background-color: #F8F9FA;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-layout-body {
+  display: flex;
+  flex: 1;
+  min-height: calc(100vh - 64px);
+}
+
+.admin-sidebar-light {
+  width: 260px;
+  background-color: #FFFFFF;
+  border-right: 1px solid #E2E8F0;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.admin-main-viewport {
+  flex: 1;
+  padding: 32px;
+  background-color: #F8F9FA;
+  overflow-y: auto;
+  max-width: 1440px;
+}
+
+@media (max-width: 1024px) {
+  .admin-layout-body {
+    flex-direction: column;
+  }
+  .admin-sidebar-light {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #E2E8F0;
+  }
+  .admin-main-viewport {
+    padding: 16px;
+  }
+}
+
+/* Simulator Phone Frames */
+.phone-simulator-container {
+  display: flex;
+  justify-content: center;
+}
+
+.phone-mockup {
+  width: 320px;
+  background: #111827;
+  border: 10px solid #1f2937;
+  border-radius: 36px;
+  overflow: hidden;
+  box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+}
+
+.phone-screen {
+  background: #022c22;
+  color: #86efac;
+  font-family: 'Courier New', monospace;
+  padding: 16px;
+  min-height: 240px;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 2px solid #064e3b;
+}
+
+.phone-keypad {
+  background: #111827;
+  padding: 16px 14px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.keypad-btn {
+  background: #1f2937;
+  border: 1px solid #374151;
+  color: #ffffff;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+
+.keypad-btn:active {
+  background: #374151;
+  transform: scale(0.95);
+}
+
+.keypad-sub {
+  font-size: 0.55rem;
+  color: #9ca3af;
+  font-weight: normal;
+}
+
+/* Bottom Navigation Bar for Mobile */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #FFFFFF;
+  border-top: 1px solid #E2E8F0;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+  z-index: 40;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.04);
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
