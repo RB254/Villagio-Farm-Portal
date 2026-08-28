@@ -6,7 +6,9 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const DB_PATH = process.env.DB_PATH || './villagio.db';
-const resolvedPath = path.resolve(DB_PATH);
+const resolvedPath = path.isAbsolute(DB_PATH)
+  ? DB_PATH
+  : path.resolve(process.cwd(), DB_PATH);
 
 // Ensure directory exists
 const dir = path.dirname(resolvedPath);

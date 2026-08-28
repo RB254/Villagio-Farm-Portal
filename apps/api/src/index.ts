@@ -70,47 +70,22 @@ import fs from 'fs';
 
 // Check if static web build is available to serve
 const possibleStaticDirs = [
-  path.resolve(__dirname, '../../web/dist'),
   path.resolve(__dirname, '../public'),
+  path.resolve(__dirname, '../../web/dist'),
   path.resolve(__dirname, './public'),
+  path.resolve(process.cwd(), 'apps/api/public'),
+  path.resolve(process.cwd(), 'public'),
+  path.resolve(process.cwd(), 'apps/web/dist'),
 ];
-const staticDir = possibleStaticDirs.find((dir) => fs.existsSync(dir));
+const staticDir = possibleStaticDirs.find((dir) => fs.existsSync(path.join(dir, 'index.html')));
 
 if (staticDir) {
+  console.log(`📁 Serving frontend static build from: ${staticDir}`);
   app.use(express.static(staticDir));
 }
 
-// Root metadata endpoint
-app.get('/', (req, res) => {
-  if (req.headers.accept && req.headers.accept.includes('application/json') && !req.headers.accept.includes('text/html')) {
-    return res.json({
-      success: true,
-      service: 'Villagio Farm Fresh API',
-      version: '1.0.0',
-      status: 'healthy',
-      timestamp: new Date().toISOString(),
-      endpoints: {
-        health: '/health',
-        api: '/api',
-        auth: '/api/auth',
-        farmers: '/api/farmers',
-        produce: '/api/produce',
-        collections: '/api/collections',
-        payments: '/api/payments',
-        admin: '/api/admin',
-        sourcing: '/api/sourcing',
-        support: '/api/support',
-        ussd: '/api/integrations/ussd',
-        ivr: '/api/integrations/ivr',
-        sms: '/api/integrations/sms',
-      },
-    });
-  }
-
-  if (staticDir && fs.existsSync(path.join(staticDir, 'index.html'))) {
-    return res.sendFile(path.join(staticDir, 'index.html'));
-  }
-
+// API Root metadata endpoint
+app.get('/api', (_req, res) => {
   res.json({
     success: true,
     service: 'Villagio Farm Fresh API',
@@ -135,31 +110,49 @@ app.get('/', (req, res) => {
   });
 });
 
-// API Root info
-app.get('/api', (_req, res) => {
-  res.json({
-    success: true,
-    service: 'Villagio Farm Fresh API',
-    version: '1.0.0',
-    status: 'healthy',
-    timestamp: new Date().toISOString(),
-  });
-});
-
 // Health check
 app.get('/health', (_req, res) => {
   res.json({ status: 'ok', service: 'Villagio API', timestamp: new Date().toISOString() });
 });
 
-// SPA fallback for static frontend if available
-if (staticDir && fs.existsSync(path.join(staticDir, 'index.html'))) {
-  app.get('*', (req, res, next) => {
-    if (req.path.startsWith('/api') || req.path === '/health') {
-      return next();
-    }
-    res.sendFile(path.join(staticDir, 'index.html'));
-  });
-}
+// SPA wildcard fallback for all non-API web routes
+app.get('*', (req, res, next) => {
+  if (req.path.startsWith('/api') || req.path === '/health') {
+    return next();
+  }
+
+  if (staticDir && fs.existsSync(path.join(staticDir, 'index.html'))) {
+    return res.sendFile(path.join(staticDir, 'index.html'));
+  }
+
+  res.status(200).send(`
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <title>Villagio Farm Fresh</title>
+      <style>
+        body { font-family: system-ui, sans-serif; background: #0f172a; color: #f8fafc; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+        .card { background: #1e293b; padding: 2.5rem; border-radius: 1rem; border: 1px solid #334155; text-align: center; max-width: 480px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        h1 { color: #22c55e; margin-bottom: 0.5rem; }
+        p { color: #94a3b8; line-height: 1.6; }
+        a { display: inline-block; margin: 0.5rem; padding: 0.6rem 1.2rem; background: #22c55e; color: #0f172a; border-radius: 0.5rem; text-decoration: none; font-weight: 600; }
+        a.secondary { background: #334155; color: #f8fafc; }
+      </style>
+    </head>
+    <body>
+      <div class="card">
+        <h1>🌱 Villagio Farm Fresh</h1>
+        <p>Backend API service is running in production.</p>
+        <div>
+          <a href="/api">API Documentation</a>
+          <a href="/health" class="secondary">Health Check</a>
+        </div>
+      </div>
+    </body>
+    </html>
+  `);
+});
 
 // ============================================================
 // ERROR HANDLING
