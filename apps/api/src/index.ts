@@ -65,10 +65,101 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/support', supportRoutes);
 app.use('/api/products', productsRouter);
 
+import path from 'path';
+import fs from 'fs';
+
+// Check if static web build is available to serve
+const possibleStaticDirs = [
+  path.resolve(__dirname, '../../web/dist'),
+  path.resolve(__dirname, '../public'),
+  path.resolve(__dirname, './public'),
+];
+const staticDir = possibleStaticDirs.find((dir) => fs.existsSync(dir));
+
+if (staticDir) {
+  app.use(express.static(staticDir));
+}
+
+// Root metadata endpoint
+app.get('/', (req, res) => {
+  if (req.headers.accept && req.headers.accept.includes('application/json') && !req.headers.accept.includes('text/html')) {
+    return res.json({
+      success: true,
+      service: 'Villagio Farm Fresh API',
+      version: '1.0.0',
+      status: 'healthy',
+      timestamp: new Date().toISOString(),
+      endpoints: {
+        health: '/health',
+        api: '/api',
+        auth: '/api/auth',
+        farmers: '/api/farmers',
+        produce: '/api/produce',
+        collections: '/api/collections',
+        payments: '/api/payments',
+        admin: '/api/admin',
+        sourcing: '/api/sourcing',
+        support: '/api/support',
+        ussd: '/api/integrations/ussd',
+        ivr: '/api/integrations/ivr',
+        sms: '/api/integrations/sms',
+      },
+    });
+  }
+
+  if (staticDir && fs.existsSync(path.join(staticDir, 'index.html'))) {
+    return res.sendFile(path.join(staticDir, 'index.html'));
+  }
+
+  res.json({
+    success: true,
+    service: 'Villagio Farm Fresh API',
+    version: '1.0.0',
+    status: 'healthy',
+    timestamp: new Date().toISOString(),
+    endpoints: {
+      health: '/health',
+      api: '/api',
+      auth: '/api/auth',
+      farmers: '/api/farmers',
+      produce: '/api/produce',
+      collections: '/api/collections',
+      payments: '/api/payments',
+      admin: '/api/admin',
+      sourcing: '/api/sourcing',
+      support: '/api/support',
+      ussd: '/api/integrations/ussd',
+      ivr: '/api/integrations/ivr',
+      sms: '/api/integrations/sms',
+    },
+  });
+});
+
+// API Root info
+app.get('/api', (_req, res) => {
+  res.json({
+    success: true,
+    service: 'Villagio Farm Fresh API',
+    version: '1.0.0',
+    status: 'healthy',
+    timestamp: new Date().toISOString(),
+  });
+});
+
 // Health check
 app.get('/health', (_req, res) => {
   res.json({ status: 'ok', service: 'Villagio API', timestamp: new Date().toISOString() });
 });
+
+// SPA fallback for static frontend if available
+if (staticDir && fs.existsSync(path.join(staticDir, 'index.html'))) {
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api') || req.path === '/health') {
+      return next();
+    }
+    res.sendFile(path.join(staticDir, 'index.html'));
+  });
+}
 
 // ============================================================
 // ERROR HANDLING
