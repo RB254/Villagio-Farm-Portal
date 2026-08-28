@@ -27,13 +27,16 @@ import supportRoutes, { productsRouter } from './routes/support.routes';
 initializeDatabase();
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 10000;
 
 // ============================================================
 // MIDDLEWARE
 // ============================================================
+const corsOrigin = process.env.CORS_ORIGIN;
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:3000', 'http://127.0.0.1:5173'],
+  origin: !corsOrigin || corsOrigin === '*' 
+    ? true 
+    : corsOrigin.split(',').map((s) => s.trim()),
   credentials: true,
 }));
 app.use(express.json());
